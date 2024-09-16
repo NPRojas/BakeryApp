@@ -4,13 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.ui.theme.BakeryAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +26,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BakeryAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
             }
         }
     }
 }
 
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MenuItemCard (item: MenuItem) {
+    Card {
+        Column {
+            Image(
+                painter = painterResource(id =R.drawable.ic_launcher_background),
+                contentDescription = item.name,
+                modifier = Modifier.size(100.dp))
+            Text(text = item.name)
+            Text(text = "$${item.price}")
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PreviewMenuItemCard() {
     BakeryAppTheme {
-        Greeting("Android")
+        MenuItemCard(item = MenuItem(name = "Sample Item", price = 10.0, imgUrl = null))
     }
 }
