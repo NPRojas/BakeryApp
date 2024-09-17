@@ -9,6 +9,13 @@ object MenuRepository {
         return listOf(
             MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
             MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
+            MenuItem("Croissant", 5.50, R.drawable.croissant),
+            MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
+            MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
+            MenuItem("Croissant", 5.50, R.drawable.croissant),
+            MenuItem("Croissant", 5.50, R.drawable.croissant),
+            MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
+            MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
             MenuItem("Croissant", 5.50, R.drawable.croissant)
         )
     }
