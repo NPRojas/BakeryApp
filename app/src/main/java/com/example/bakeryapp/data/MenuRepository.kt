@@ -7,16 +7,16 @@ import com.example.bakeryapp.R
 object MenuRepository {
     fun getMenuItems(): List<MenuItem> {
         return listOf(
-            MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
-            MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-            MenuItem("Croissant", 5.50, R.drawable.croissant),
-            MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
-            MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-            MenuItem("Croissant", 5.50, R.drawable.croissant),
-            MenuItem("Croissant", 5.50, R.drawable.croissant),
-            MenuItem("Hot Coffee", 2.99, R.drawable.croissant),
-            MenuItem("Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-            MenuItem("Croissant", 5.50, R.drawable.croissant)
+            MenuItem(0,"Hot Coffee", 2.99, R.drawable.croissant),
+            MenuItem(1,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
+            MenuItem(2,"Croissant", 5.50, R.drawable.croissant),
+            MenuItem(3,"Hot Coffee", 2.99, R.drawable.croissant),
+            MenuItem(4,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
+            MenuItem(5,"Croissant", 5.50, R.drawable.croissant),
+            MenuItem(6,"Croissant", 5.50, R.drawable.croissant),
+            MenuItem(7,"Hot Coffee", 2.99, R.drawable.croissant),
+            MenuItem(8,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
+            MenuItem(9,"Croissant", 5.50, R.drawable.croissant)
         )
     }
 }

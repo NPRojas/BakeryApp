@@ -1,4 +1,4 @@
-package com.example.bakeryapp.ui.menu
+package com.example.bakeryapp.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,23 +7,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.bakeryapp.R
-import com.example.bakeryapp.data.MenuItem
-import com.example.bakeryapp.data.MenuViewModel
-import com.example.bakeryapp.ui.theme.BakeryAppTheme
+import com.example.bakeryapp.ui.menu.MenuHeader
+import com.example.bakeryapp.ui.menu.MenuItemCard
 
 
 @Composable
 fun MenuScreen(
     navController: NavController,
-    viewModel: MenuViewModel) {
-
+    viewModel: MenuViewModel
+) {
     // retrieve the menu items from vm
     val menuItems = viewModel.menuItems
     Column(
@@ -39,7 +35,10 @@ fun MenuScreen(
                 .fillMaxWidth()
         ) {
             items(menuItems) {menuItem ->
-                MenuItemCard(menuItem)}
+                MenuItemCard(menuItem) {
+                    navController.navigate("menu_item_details_screen/${menuItem.id}")
+                }
+            }
         }
         
     }
@@ -48,8 +47,5 @@ fun MenuScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewMenuScreen() {
-   val viewModel = MenuViewModel()
 
-    // Pass a no-op lambda for onNavItemClick
-    MenuScreen(navController =, viewModel = viewModel)
 }

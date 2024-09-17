@@ -1,6 +1,7 @@
 package com.example.bakeryapp.ui.menu
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,11 +24,12 @@ import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.ui.theme.BakeryAppTheme
 
 @Composable
-fun MenuItemCard (item: MenuItem) {
+fun MenuItemCard (item: MenuItem, onClick:() -> Unit) {
     Card(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
+            .clickable { onClick()}
     ) {
         Row(
             modifier = Modifier
@@ -58,6 +60,5 @@ fun MenuItemCard (item: MenuItem) {
 fun PreviewMenuItemCard(
 ) {
     BakeryAppTheme {
-      MenuItemCard(item = MenuItem(name = "Croissant", price = 10.0, img = R.drawable.croissant))
     }
 }
