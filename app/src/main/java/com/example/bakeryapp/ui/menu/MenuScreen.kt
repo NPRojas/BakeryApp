@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.bakeryapp.R
 import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.MenuViewModel
@@ -20,8 +21,8 @@ import com.example.bakeryapp.ui.theme.BakeryAppTheme
 
 @Composable
 fun MenuScreen(
-    viewModel: MenuViewModel,
-    onNavItemClick: (String) -> Unit) {
+    navController: NavController,
+    viewModel: MenuViewModel) {
 
     // retrieve the menu items from vm
     val menuItems = viewModel.menuItems
@@ -50,5 +51,5 @@ fun PreviewMenuScreen() {
    val viewModel = MenuViewModel()
 
     // Pass a no-op lambda for onNavItemClick
-    MenuScreen(viewModel = viewModel, onNavItemClick = { _ -> })
+    MenuScreen(navController =, viewModel = viewModel)
 }
