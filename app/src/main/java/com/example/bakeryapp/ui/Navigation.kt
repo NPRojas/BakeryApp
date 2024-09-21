@@ -11,12 +11,11 @@ import com.example.bakeryapp.Screen
 
 
 @Composable
-fun Navigation() {
+fun Navigation(viewModel: MenuViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "menu_screen") {
         composable("menu_screen") {
-            val viewModel : MenuViewModel = viewModel()
             MenuScreen(navController, viewModel)
         }
 
@@ -26,7 +25,6 @@ fun Navigation() {
                 type = NavType.IntType
             })
         ) { navBackStackEntry ->
-            val viewModel : MenuViewModel = viewModel()
             val menuItemId =
                 navBackStackEntry.arguments?.getInt("itemId")!!
             MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId)

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.bakeryapp.ui.MenuViewModel
 import com.example.bakeryapp.ui.Navigation
@@ -18,7 +19,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BakeryAppTheme {
-                Navigation()
+                val menuViewModel: MenuViewModel = viewModel()
+                Navigation(menuViewModel)
             }
         }
     }
