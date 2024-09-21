@@ -59,6 +59,7 @@ fun MenuItemDetailsScreen(
         onClick = {
             val order = OrderItem(menuItem, quantity)
             viewModel.addToOrder(order)
+            navController.popBackStack()
         },
     ) {
         Text(text = "Add to Order", style = MaterialTheme.typography.labelMedium )

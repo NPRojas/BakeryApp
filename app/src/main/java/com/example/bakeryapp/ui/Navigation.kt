@@ -27,7 +27,7 @@ fun Navigation(viewModel: MenuViewModel) {
         ) { navBackStackEntry ->
             val menuItemId =
                 navBackStackEntry.arguments?.getInt("itemId")!!
-            MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId)
+            MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId, navController)
         }
 
     }
