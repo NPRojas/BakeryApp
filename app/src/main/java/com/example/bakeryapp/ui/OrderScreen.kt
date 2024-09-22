@@ -1,5 +1,9 @@
 package com.example.bakeryapp.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,17 +11,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.bakeryapp.data.OrderItem
+import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.order.OrderItemCard
+import com.google.android.gms.wallet.button.ButtonConstants
+import com.google.android.gms.wallet.button.PayButton
 
 @Composable
-fun OrderScreen(viewModel: MenuViewModel) {
+fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
     val orderItems = viewModel.getCurrentOrder()
     val orderTotal= viewModel.getOrderTotalPrice()
 
@@ -26,7 +42,7 @@ fun OrderScreen(viewModel: MenuViewModel) {
             .fillMaxSize()
             .padding(15.dp)
     ){
-        Text("Order Details", style = MaterialTheme.typography.titleSmall)
+        MenuHeader(title = "Order Details")
         Spacer(modifier = Modifier.height(15.dp))
 
         if (orderItems.isEmpty()) {
@@ -38,11 +54,23 @@ fun OrderScreen(viewModel: MenuViewModel) {
             ) {
                 items(orderItems) { orderItem ->
                     OrderItemCard(orderItem = orderItem)
+                    Spacer(modifier = Modifier.height(5.dp))
                 }
             }
 
-            Text(text = "Total Price: $${orderTotal}", style = MaterialTheme.typography.bodySmall)
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row() {
+                Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = "$${orderTotal}", style = MaterialTheme.typography.titleMedium)}
+            }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Button(onClick = { }, modifier = Modifier
+            .fillMaxWidth()) {
+            Text(text = "Pay Now", style = MaterialTheme.typography.labelLarge)
         }
     }
 }
-

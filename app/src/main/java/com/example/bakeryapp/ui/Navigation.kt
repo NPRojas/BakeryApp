@@ -30,6 +30,10 @@ fun Navigation(viewModel: MenuViewModel) {
             MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId, navController)
         }
 
+        composable(route = "order_screen"){
+            OrderScreen(viewModel = viewModel, navController)
+        }
+
     }
 }
 

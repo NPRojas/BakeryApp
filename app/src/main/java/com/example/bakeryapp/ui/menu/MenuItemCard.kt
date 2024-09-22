@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,15 +41,15 @@ fun MenuItemCard (item: MenuItem, onClick:() -> Unit) {
                     .size(100.dp)
                     .clip(CircleShape),
                 painter = painterResource(id = item.img),
-                contentDescription = item.name
+                contentDescription = null
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column (
                 modifier = Modifier
                     .weight(1f), horizontalAlignment = Alignment.Start
             ) {
-                Text(text = item.name)
-                Text(text = "$${item.price}")
+                Text(text = item.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${item.price}", style = MaterialTheme.typography.bodyMedium)
             }
         }
     }
