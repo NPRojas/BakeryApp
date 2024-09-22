@@ -29,8 +29,6 @@ import androidx.navigation.NavController
 import com.example.bakeryapp.data.OrderItem
 import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.order.OrderItemCard
-import com.google.android.gms.wallet.button.ButtonConstants
-import com.google.android.gms.wallet.button.PayButton
 
 @Composable
 fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {

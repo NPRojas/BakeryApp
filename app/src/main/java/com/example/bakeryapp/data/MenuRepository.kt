@@ -7,17 +7,17 @@ import com.example.bakeryapp.R
 object MenuRepository {
 
     private val menuItems = listOf(
-        MenuItem(0,"Hot Coffee", 2.99, R.drawable.croissant),
-        MenuItem(1,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-        MenuItem(2,"Croissant", 5.50, R.drawable.croissant),
-        MenuItem(3,"Hot Coffee", 2.99, R.drawable.croissant),
-        MenuItem(4,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-        MenuItem(5,"Croissant", 5.50, R.drawable.croissant),
-        MenuItem(6,"Croissant", 5.50, R.drawable.croissant),
-        MenuItem(7,"Hot Coffee", 2.99, R.drawable.croissant),
-        MenuItem(8,"Bagel with Cream Cheese", 4.75, R.drawable.croissant),
-        MenuItem(9,"Croissant", 5.50, R.drawable.croissant)
+        MenuItem(0, "Iced Coffee", 2.99, R.drawable.coffee),
+        MenuItem(1, "Bagel with Cream Cheese", 4.75, R.drawable.bagel),
+        MenuItem(2, "Croissant Sandwich", 5.50, R.drawable.croissant),
+        MenuItem(3, "Rose Macaron", 2.99, R.drawable.rose_macaron),
+        MenuItem(4, "Chocolate Chip Walnut Cookie", 4.00, R.drawable.chocolate_chip_walnut_cookies),
+        MenuItem(5, "Cream Puff", 5.50, R.drawable.cream_puffs),
+        MenuItem(6, "Apple Cinnamon Danish", 5.25, R.drawable.apple_cinnamon_danish),
+        MenuItem(7, "Raspberry Rugelach", 3.50, R.drawable.raspberry_rugelach),
+        MenuItem(8, "Blueberry Scone", 4.25, R.drawable.blueberry_scones)
     )
+
 
     val currentOrder = mutableListOf<OrderItem>()
 
