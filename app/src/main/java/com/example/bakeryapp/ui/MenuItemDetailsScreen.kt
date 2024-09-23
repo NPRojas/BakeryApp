@@ -1,6 +1,7 @@
 package com.example.bakeryapp.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.bakeryapp.data.OrderItem
+import com.example.bakeryapp.ui.theme.onPrimaryContainerLight
+import com.example.bakeryapp.ui.theme.onPrimaryLight
+import com.example.bakeryapp.ui.theme.onSecondaryContainerLight
+import com.example.bakeryapp.ui.theme.primaryLight
 
 @Composable
 fun MenuItemDetailsScreen(
@@ -56,11 +62,11 @@ fun MenuItemDetailsScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(modifier = Modifier.padding(horizontal = 5.dp), text = menuItem.name, style = MaterialTheme.typography.titleMedium)
+        Text(modifier = Modifier.padding(horizontal = 5.dp), text = menuItem.name, style = MaterialTheme.typography.bodyLarge, color = primaryLight)
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        Text(modifier = Modifier.padding(horizontal = 5.dp), text = "$${menuItem.price}", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+        Text(modifier = Modifier.padding(horizontal = 5.dp), text = "$${menuItem.price}", style = MaterialTheme.typography.bodyLarge, color = Color.Gray)
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -69,9 +75,11 @@ fun MenuItemDetailsScreen(
         Button(onClick = {
             val order = OrderItem(menuItem, quantity)
             viewModel.addToOrder(order)
-            navController.popBackStack()}, modifier = Modifier
+            navController.popBackStack()},
+            colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
+            modifier = Modifier
             .fillMaxWidth()) {
-            Text(text = "Add to Order", style = MaterialTheme.typography.labelLarge)
+            Text(text = "Add to Order", style = MaterialTheme.typography.titleMedium, color = onPrimaryLight,)
         }
     }
 }

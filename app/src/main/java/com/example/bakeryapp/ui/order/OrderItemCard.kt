@@ -21,14 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.bakeryapp.data.OrderItem
+import com.example.bakeryapp.ui.theme.primaryContainerLight
+import com.example.bakeryapp.ui.theme.primaryLight
 
 @Composable
 fun OrderItemCard(orderItem: OrderItem) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color.Red),
+            containerColor = primaryContainerLight),
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth(),
@@ -49,9 +52,9 @@ fun OrderItemCard(orderItem: OrderItem) {
                 modifier = Modifier
                     .weight(1f), horizontalAlignment = Alignment.Start
             ) {
-                Text(text = "${orderItem.menuItem.name} x ${orderItem.quantity}", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "${orderItem.menuItem.name} x ${orderItem.quantity}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = primaryLight)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "$${orderItem.menuItem.price * orderItem.quantity}", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "$${orderItem.menuItem.price * orderItem.quantity}", style = MaterialTheme.typography.bodyMedium, color = primaryLight)
             }
         }
     }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,9 @@ import androidx.navigation.NavController
 import com.example.bakeryapp.data.OrderItem
 import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.order.OrderItemCard
+import com.example.bakeryapp.ui.theme.onPrimaryContainerLight
+import com.example.bakeryapp.ui.theme.onPrimaryLight
+import com.example.bakeryapp.ui.theme.primaryLight
 
 @Composable
 fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
@@ -59,16 +63,18 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             Row() {
-                Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium)
+                Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium, color = primaryLight)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "$${orderTotal}", style = MaterialTheme.typography.titleMedium)}
+                Text(text = "$${orderTotal}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
             }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { }, modifier = Modifier
+        Button(onClick = { },
+            colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
+            modifier = Modifier
             .fillMaxWidth()) {
-            Text(text = "Pay Now", style = MaterialTheme.typography.labelLarge)
+            Text(text = "Pay Now", style = MaterialTheme.typography.titleMedium, color = onPrimaryLight)
         }
     }
 }
