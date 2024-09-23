@@ -56,5 +56,3 @@ fun PreviewMenuHeader(
         MenuHeader(title = "Menu")
     }
 }
-
-// is this the best way to hold toe composables? since they are so small, maybe one file to hold them all?

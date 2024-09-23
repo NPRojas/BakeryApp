@@ -31,5 +31,9 @@ class MenuViewModel(): ViewModel() {
     fun getOrderTotalPrice(): Double {
         return repository.currentOrder.sumOf { it.menuItem.price * it.quantity }
     }
+
+    fun deleteOrder() {
+        repository.deleteOrder()
+    }
 }
 

@@ -43,4 +43,8 @@ object MenuRepository {
     fun getOrder() : List<OrderItem> {
         return currentOrder
     }
+
+    fun deleteOrder() {
+        currentOrder.clear()
+    }
 }

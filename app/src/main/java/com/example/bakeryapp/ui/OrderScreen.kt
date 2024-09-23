@@ -1,5 +1,6 @@
 package com.example.bakeryapp.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -70,7 +72,12 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { },
+        val context = LocalContext.current
+        Button(onClick = {
+            Toast.makeText(context, "Order Received!", Toast.LENGTH_SHORT).show()
+            viewModel.deleteOrder()
+            navController.navigate("menu_screen")
+        },
             colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
             modifier = Modifier
             .fillMaxWidth()) {
