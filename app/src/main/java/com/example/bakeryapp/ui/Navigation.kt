@@ -1,22 +1,26 @@
 package com.example.bakeryapp.ui
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.bakeryapp.Screen
+import com.example.bakeryapp.ui.view.MenuItemDetailsScreen
+import com.example.bakeryapp.ui.view.MenuScreen
+import com.example.bakeryapp.ui.view.OrderScreen
 
 
 @Composable
-fun Navigation(viewModel: MenuViewModel) {
-    val navController = rememberNavController()
+fun Navigation(navCon: NavHostController, viewModel: MenuViewModel, modifier: Modifier) {
 
-    NavHost(navController = navController, startDestination = "menu_screen") {
+    NavHost(navController = navCon, startDestination = "menu_screen", modifier = modifier) {
+
         composable("menu_screen") {
-            MenuScreen(navController, viewModel)
+            MenuScreen(navCon, viewModel)
         }
 
         composable(
@@ -27,12 +31,13 @@ fun Navigation(viewModel: MenuViewModel) {
         ) { navBackStackEntry ->
             val menuItemId =
                 navBackStackEntry.arguments?.getInt("itemId")!!
-            MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId, navController)
+            MenuItemDetailsScreen(viewModel = viewModel, menuItemId = menuItemId, navCon)
         }
 
         composable(route = "order_screen"){
-            OrderScreen(viewModel = viewModel, navController)
+            OrderScreen(viewModel = viewModel, navCon)
         }
+
 
     }
 }

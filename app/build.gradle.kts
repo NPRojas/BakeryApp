@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.bakeryapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.bakeryapp"
@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    // TODO: reformat this dependency to match the others   
+    implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
