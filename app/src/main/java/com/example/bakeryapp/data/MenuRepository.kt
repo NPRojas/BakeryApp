@@ -44,6 +44,10 @@ object MenuRepository {
         return currentOrder
     }
 
+    fun getOrderTotalPrice(): Double {
+        return currentOrder.sumOf { it.menuItem.price * it.quantity }
+    }
+
     fun deleteOrder() {
         currentOrder.clear()
     }

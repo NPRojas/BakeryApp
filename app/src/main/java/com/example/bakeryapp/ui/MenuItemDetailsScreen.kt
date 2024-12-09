@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -66,7 +67,7 @@ fun MenuItemDetailsScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(modifier = Modifier.padding(horizontal = 5.dp), text = menuItem.name, style = MaterialTheme.typography.bodyLarge, color = primaryLight)
+        Text(modifier = Modifier.padding(horizontal = 5.dp), text = menuItem.name, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodyLarge, color = primaryLight)
 
         Spacer(modifier = Modifier.height(2.dp))
 
