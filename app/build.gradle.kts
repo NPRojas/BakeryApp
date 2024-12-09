@@ -53,6 +53,16 @@ dependencies {
     // TODO: reformat this dependency to match the others   
     implementation("androidx.navigation:navigation-compose:2.8.4")
     implementation("androidx.compose.material:material-icons-extended:1.7.5")
+    // credential manager
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    //firebase
+    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
+    //lifecycle dependency
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
 
     implementation(libs.androidx.core.ktx)

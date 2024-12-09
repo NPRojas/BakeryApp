@@ -17,18 +17,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.bakeryapp.ui.MenuViewModel
 import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.theme.BakeryAppTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RewardsScreen() {
-
+fun RewardsScreen(menuViewModel: MenuViewModel) {
 
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    val isLoggedIn = menuViewModel.isLoggedIn.value
+
+    if(!isLoggedIn){
+        showBottomSheet = true
+    }
+
     Scaffold(
 
         floatingActionButton = {
@@ -42,7 +49,7 @@ fun RewardsScreen() {
         }
     ) { contentPadding ->
         // Screen content
-        MenuHeader(title = "This is a test")
+        MenuHeader(title = "Rewards")
 
         if (showBottomSheet) {
             ModalBottomSheet(
@@ -52,14 +59,17 @@ fun RewardsScreen() {
                 sheetState = sheetState
             ) {
                 // Sheet content
+                MenuHeader(title = "Sign In")
                 Button(onClick = {
+
+
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
                             showBottomSheet = false
                         }
                     }
                 }) {
-                    Text("Hide bottom sheet")
+                    Text("Sign in with Google")
                 }
             }
         }
@@ -74,6 +84,6 @@ fun RewardsScreen() {
 @Composable
 fun Preview() {
     BakeryAppTheme {
-        RewardsScreen()
+        RewardsScreen(menuViewModel = MenuViewModel())
     }
 }
