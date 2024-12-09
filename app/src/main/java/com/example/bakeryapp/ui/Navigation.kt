@@ -3,15 +3,18 @@ package com.example.bakeryapp.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.view.MenuItemDetailsScreen
 import com.example.bakeryapp.ui.view.MenuScreen
 import com.example.bakeryapp.ui.view.OrderScreen
+import com.example.bakeryapp.ui.view.RewardsScreen
 
 
 @Composable
@@ -38,8 +41,13 @@ fun Navigation(navCon: NavHostController, viewModel: MenuViewModel, modifier: Mo
             OrderScreen(viewModel = viewModel, navCon)
         }
 
+        composable(route = "rewards_screen") {
+            RewardsScreen()
+        }
+
 
     }
 }
+
 
 
