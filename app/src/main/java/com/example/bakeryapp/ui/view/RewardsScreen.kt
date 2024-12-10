@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -38,96 +39,68 @@ import kotlinx.coroutines.launch
 @Composable
 fun RewardsScreen(menuViewModel: MenuViewModel) {
 
-    val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
-
-    val isLoggedIn = menuViewModel.isLoggedInState.value.isSignInSuccessful
-
     val context = LocalContext.current
-    val googleAuthUiClient by remember {
-        mutableStateOf(
-            GoogleAuthUiClient(
-                context = context,
-                oneTapClient = Identity.getSignInClient(context)
-            )
+    val googleAuthUiClient = remember {
+        GoogleAuthUiClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
         )
     }
 
-    if(!isLoggedIn){
-        showBottomSheet = true
+    val isLoggedIn = menuViewModel.isLoggedInState.value.isSignInSuccessful
+
+    val coroutineScope = rememberCoroutineScope()
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = { result ->
+            if (result.resultCode == RESULT_OK) {
+                coroutineScope.launch {
+                    val signInResult = googleAuthUiClient.signInWithIntent(
+                        intent = result.data ?: return@launch
+                    )
+                    menuViewModel.onSignInResult(signInResult)
+                }
+            }
+        }
+    )
+
+    val state by menuViewModel._isLoggedInState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = state.isSignInSuccessful) {
+        if (state.isSignInSuccessful) {
+            Toast.makeText(
+                context,
+                "Sign in successful",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
-    Scaffold(
+    Column {
+        MenuHeader(title = "Rewards")
 
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
-                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                onClick = {
-                    showBottomSheet = true
+        if (isLoggedIn) {
+            Text("Welcome to the Rewards Screen!")
+
+            Button(onClick = {  }) {
+                Text("Redeem Rewards")
+            }
+        } else {
+            SignInScreen(
+                state = state,
+                onSignInClick = {
+                    // Google Sign-In
+                    coroutineScope.launch {
+                        val signInIntentSender = googleAuthUiClient.signIn()
+                        launcher.launch(
+                            IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build()
+                        )
+                    }
                 }
             )
         }
-    ) { contentPadding ->
-        // Screen content
-        MenuHeader(title = "Rewards")
-
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    showBottomSheet = false
-                },
-                sheetState = sheetState
-            ) {
-                // Sheet content
-                val coroutineScope = rememberCoroutineScope()
-                val launcher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.StartIntentSenderForResult(),
-                    onResult = { result ->
-                        if(result.resultCode == RESULT_OK){
-                            coroutineScope.launch {
-                                val signInResult = googleAuthUiClient.signInWithIntent(
-                                    intent = result.data ?: return@launch
-                                )
-                                menuViewModel.onSignInResult(signInResult)
-                            }
-                        }
-                    }
-                )
-
-                val state by menuViewModel._isLoggedInState.collectAsStateWithLifecycle()
-                
-                LaunchedEffect(key1 = state.isSignInSuccessful) {
-                    if (state.isSignInSuccessful) {
-                        Toast.makeText(
-                            context,
-                            "Sign in successful",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    
-                }
-                SignInScreen(
-                    state = state,
-                    onSignInClick = {
-                        coroutineScope.launch {
-                            val signInIntentSender = googleAuthUiClient.signIn()
-                            launcher.launch(
-                                IntentSenderRequest.Builder(
-                                    signInIntentSender ?: return@launch
-                                ).build()
-                            )
-                        }
-                    })
-            }
-        }
     }
-
-
-    // TODO: implement the rest of the rewards screen 
 }
-
 
 @Preview(showBackground = true)
 @Composable
