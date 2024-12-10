@@ -11,12 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.bakeryapp.presentation.sign_in.GoogleAuthUiClient
 import com.example.bakeryapp.ui.MenuViewModel
 import com.example.bakeryapp.ui.Navigation
 import com.example.bakeryapp.ui.btmNav.BottomNav
 import com.example.bakeryapp.ui.theme.BakeryAppTheme
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -1,5 +1,6 @@
 package com.example.bakeryapp.ui
 
+import android.app.Application
 import android.credentials.GetCredentialException
 import android.credentials.GetCredentialRequest
 import android.credentials.GetCredentialResponse
@@ -15,6 +16,11 @@ import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.MenuRepository
 import com.example.bakeryapp.data.Order
 import com.example.bakeryapp.data.OrderItem
+import com.example.bakeryapp.presentation.sign_in.SignInResult
+import com.example.bakeryapp.presentation.sign_in.SignInState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MenuViewModel(): ViewModel() {
@@ -45,5 +51,18 @@ class MenuViewModel(): ViewModel() {
 
     // These functions might be better placed in another view model in the future
 
-    var isLoggedIn = mutableStateOf(false)
+    var _isLoggedInState = MutableStateFlow(SignInState())
+    val isLoggedInState = _isLoggedInState.asStateFlow()
+
+    fun onSignInResult(result: SignInResult) {
+        _isLoggedInState.update { it.copy(
+            isSignInSuccessful = result.data != null,
+            signInError = result.errorMessage
+        )
+        }
+    }
+
+    fun resetState() {
+        _isLoggedInState.update { SignInState() }
+    }
 }

@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     //firebase
+    implementation ("com.google.firebase:firebase-bom:32.0.0") // ATTN: what does this do?
     implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
     implementation("com.google.android.gms:play-services-auth:20.4.1")
     //lifecycle dependency
