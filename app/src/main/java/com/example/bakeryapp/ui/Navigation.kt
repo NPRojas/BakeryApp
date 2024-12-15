@@ -18,8 +18,7 @@ import com.example.bakeryapp.ui.view.RewardsScreen
 fun Navigation(
     navCon: NavHostController,
     viewModel: MenuViewModel,
-    modifier: Modifier,
-    startSignIn: () -> Unit ) {
+    modifier: Modifier) {
 
     NavHost(navController = navCon, startDestination = "menu_screen", modifier = modifier) {
 
@@ -43,7 +42,7 @@ fun Navigation(
         }
 
         composable(route = "rewards_screen") {
-            RewardsScreen(viewModel, onSignInClick = { startSignIn() })
+            RewardsScreen(viewModel)
         }
     }
 }

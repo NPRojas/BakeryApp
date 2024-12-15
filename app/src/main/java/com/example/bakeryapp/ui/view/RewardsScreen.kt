@@ -35,46 +35,10 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RewardsScreen(menuViewModel: MenuViewModel, onSignInClick: () -> Unit) {
-
-    val context = LocalContext.current
-    val googleAuthUiClient = remember {
-        GoogleAuthUiClient(
-            context = context,
-            oneTapClient = Identity.getSignInClient(context)
-        )
-    }
+fun RewardsScreen(menuViewModel: MenuViewModel) {
 
     val isLoggedIn = menuViewModel.isLoggedInState.value.isSignInSuccessful
-
-    val coroutineScope = rememberCoroutineScope()
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartIntentSenderForResult(),
-        onResult = { result ->
-            if (result.resultCode == RESULT_OK) {
-                coroutineScope.launch {
-                    val signInResult = googleAuthUiClient.signInWithIntent(
-                        intent = result.data ?: return@launch
-                    )
-                    menuViewModel.onSignInResult(signInResult)
-                }
-            }
-        }
-    )
-
-    val state by menuViewModel._isLoggedInState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(key1 = state.isSignInSuccessful) {
-        if (state.isSignInSuccessful) {
-            Toast.makeText(
-                context,
-                "Sign in successful",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
 
     Column {
         MenuHeader(title = "Rewards")
@@ -86,20 +50,7 @@ fun RewardsScreen(menuViewModel: MenuViewModel, onSignInClick: () -> Unit) {
                 Text("Redeem Rewards")
             }
         } else {
-//            SignInScreen(
-//                state = state,
-//                onSignInClick = {
-//                    // Google Sign-In
-//                    coroutineScope.launch {
-//                        val signInIntentSender = googleAuthUiClient.signIn()
-//                        launcher.launch(
-//                            IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build()
-//                        )
-//                    }
-//                }
-//            )
             GoogleSignInButton()
-
         }
     }
 }
@@ -133,11 +84,11 @@ fun GoogleSignInButton() {
 
         coroutineScope.launch {
             try{
-                val request = credentialManager.getCredential(
+                val response = credentialManager.getCredential(
                     request = request,
                     context = context
                 )
-                val credential = request.credential
+                val credential = response.credential
 
                 val googleIdTokenCredential = GoogleIdTokenCredential
                     .createFrom(credential.data)
@@ -145,7 +96,7 @@ fun GoogleSignInButton() {
                 val googleIdToken = googleIdTokenCredential.idToken
 
                 Log.i(TAG, googleIdToken)
-                Toast.makeText(context, "You re signed in!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "You are signed in!", Toast.LENGTH_LONG).show()
 
             } catch(e: GetCredentialException) {
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

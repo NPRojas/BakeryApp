@@ -21,42 +21,6 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
-    //-------FIREBASE UI START-----------------------------------
-
-    // See: https://developer.android.com/training/basics/intents/result
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract(),
-    ) { res ->
-        this.onSignInResult(res)
-    }
-
-    private fun startSignIn() {
-        // Chose auth providers
-        val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
-        // Create and launch sign in Intent
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setTheme(R.style.Theme_BakeryApp)
-            .build()
-        signInLauncher.launch(signInIntent)
-    }
-
-    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        val response = result.idpResponse
-        if (result.resultCode == RESULT_OK) {
-            // Successfully signed in
-            val user = FirebaseAuth.getInstance().currentUser
-            // ...
-        } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-        }
-    }
-    //-------FIREBASE UI END-----------------------------------
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +37,7 @@ class MainActivity : ComponentActivity() {
                     Navigation(
                         navController,
                         menuViewModel,
-                        Modifier.padding(innerPadding),
-                        { startSignIn() }
+                        Modifier.padding(innerPadding)
                     )
                 }
 
