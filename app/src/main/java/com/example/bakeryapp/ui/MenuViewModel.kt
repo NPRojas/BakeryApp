@@ -39,21 +39,13 @@ class MenuViewModel(): ViewModel() {
     fun deleteOrder() {
         repository.deleteOrder()
     }
-
     // These functions might be better placed in another view model in the future
 
-    var _isLoggedInState = MutableStateFlow(SignInState())
-    val isLoggedInState = _isLoggedInState.asStateFlow()
+    private val _isLoggedIn = MutableStateFlow(false)
+    val isLoggedIn = _isLoggedIn.asStateFlow()
 
-    fun onSignInResult(result: SignInResult) {
-        _isLoggedInState.update { it.copy(
-            isSignInSuccessful = result.data != null,
-            signInError = result.errorMessage
-        )
-        }
+    fun setLoggedIn(loggedIn: Boolean) {
+        _isLoggedIn.value = loggedIn
     }
 
-    fun resetState() {
-        _isLoggedInState.update { SignInState() }
-    }
 }
