@@ -47,7 +47,7 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
                     .fillMaxWidth()
             ) {
                 items(orderItems) { orderItem ->
-                    OrderItemCard(orderItem = orderItem)
+                    OrderItemCard(orderItem = orderItem) { viewModel.deleteMenuItem(orderItem) }
                     Spacer(modifier = Modifier.height(5.dp))
                 }
             }

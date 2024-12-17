@@ -73,7 +73,7 @@ fun setUpFirebase() {
     val user = hashMapOf(
         "first" to "Ada",
         "last" to "Lovelace",
-        "born" to 1815
+        "points" to 0
     )
 
     firestoredb.collection("users")
@@ -91,7 +91,6 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
 
     val isLoggedIn by menuViewModel.isLoggedIn.collectAsState()
 
-
     Column {
         MenuHeader(title = "Rewards")
 
@@ -107,7 +106,6 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
 @Composable
 fun Preview() {
     BakeryAppTheme {
-//        RewardsScreen(menuViewModel = MenuViewModel(), onSignInClick = onSignInCl)
         RedeemRewards(100)
     }
 }
@@ -141,6 +139,7 @@ fun RedeemRewards(points: Int) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
             modifier = Modifier.offset(24.dp),
+            //TODO Implement a nav to the main screen
             onClick = {}) {
             Text(text = "Redeem Rewards", style = MaterialTheme.typography.titleMedium, color = onPrimaryLight)
         }

@@ -1,10 +1,14 @@
 package com.example.bakeryapp.data
 
+import androidx.compose.runtime.currentCompositionErrors
 import com.example.bakeryapp.R
+import com.google.firebase.firestore.firestoreSettings
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // This is a mock repository as this is app is meant for front end practice
 
-object MenuRepository {
+class MenuRepository {
 
     private val menuItems = listOf(
         MenuItem(0, "Iced Coffee", 2.99, R.drawable.coffee),
@@ -37,7 +41,25 @@ object MenuRepository {
     }
 
     fun addToOrder(orderItem: OrderItem) {
-        currentOrder.add(orderItem)
+
+        // if the orderItem menuItem is already found in the list, then add plus 1 to the quantity
+        val itemInOrder = currentOrder
+            .any { it.menuItem == orderItem.menuItem }
+
+        if (itemInOrder) {
+            val existingItemIndex = currentOrder
+                .indexOfFirst { it.menuItem == orderItem.menuItem }
+
+            if (existingItemIndex != -1) {
+                val existingItem = currentOrder[existingItemIndex]
+                val updatedQuantity = existingItem.quantity + 1
+                val updatedItem = existingItem
+                    .copy(quantity = updatedQuantity)
+                currentOrder[existingItemIndex] = updatedItem
+            }
+        } else {
+            currentOrder.add(orderItem)
+        }
     }
 
     fun getOrder() : List<OrderItem> {
@@ -50,5 +72,32 @@ object MenuRepository {
 
     fun deleteOrder() {
         currentOrder.clear()
+    }
+
+    //TODO: add these funtions to the viewmodel
+
+    fun deleteMenuItemFromOrder(orderItem: OrderItem) {
+        // find the menu item in the current order and delete it
+        val itemInOrder = currentOrder.find { it.menuItem == orderItem.menuItem}
+        currentOrder.remove(itemInOrder)
+    }
+
+    fun retriveRewardsPoints() {
+        // get reward points from the database
+    }
+
+    fun calculateNewRewardsPoints(): Double {
+        val totalPrice = getOrderTotalPrice()
+        val rewardPoints = totalPrice * 11
+        // TODO: Add these points to the database
+        return rewardPoints
+    }
+
+    fun useRewardPoints() {
+        // use the retriveRewardsPoints function
+        // convert the points to cash
+        // discount that from the current price
+        // give me the leftover points to display on the menu screen
+
     }
 }

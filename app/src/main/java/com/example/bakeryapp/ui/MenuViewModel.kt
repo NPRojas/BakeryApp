@@ -1,5 +1,6 @@
 package com.example.bakeryapp.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.MenuRepository
@@ -13,10 +14,9 @@ import kotlinx.coroutines.flow.update
 
 class MenuViewModel(): ViewModel() {
     //--------------------------
-
     //--------------------------
 
-    private val repository = MenuRepository
+    private val repository = MenuRepository()
 
     val menuItems = repository.getMenuItems()
 
@@ -39,13 +39,15 @@ class MenuViewModel(): ViewModel() {
     fun deleteOrder() {
         repository.deleteOrder()
     }
+
+    fun deleteMenuItem(orderItem: OrderItem) {
+        repository.deleteMenuItemFromOrder(orderItem)
+    }
     // These functions might be better placed in another view model in the future
 
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn = _isLoggedIn.asStateFlow()
 
-    fun setLoggedIn(loggedIn: Boolean) {
-        _isLoggedIn.value = loggedIn
-    }
+
 
 }
