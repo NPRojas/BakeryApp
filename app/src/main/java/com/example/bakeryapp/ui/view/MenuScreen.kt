@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bakeryapp.data.User
 import com.example.bakeryapp.ui.MenuViewModel
 import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.menu.MenuItemCard
@@ -69,6 +70,13 @@ fun MenuScreen(
             items(menuItems) {menuItem ->
                 MenuItemCard(menuItem) {
                     navController.navigate("menu_item_details_screen/${menuItem.id}")
+                }
+                val user = User("1", 367)
+                Button(onClick = { viewModel.retriveUser() }) {
+                    Text("USERRRR")
+                }
+                Button(onClick = { viewModel.updatePoints("1",3000) }) {
+                    Text("Update")
                 }
             }
         }
