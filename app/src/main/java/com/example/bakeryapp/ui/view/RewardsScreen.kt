@@ -28,8 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +45,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bakeryapp.R
+import com.example.bakeryapp.data.User
 import com.example.bakeryapp.presentation.sign_in.vol1.GoogleAuthUiClient
 import com.example.bakeryapp.presentation.sign_in.vol1.SignInScreen
 import com.example.bakeryapp.ui.MenuViewModel
@@ -59,45 +63,55 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-fun setUpFirebase() {
-    val firestoredb = Firebase.firestore
-    firestoredb.useEmulator("10.0.2.2", 8080)
-
-    firestoredb.firestoreSettings = firestoreSettings {
-        isPersistenceEnabled = false
-    }
-
-    // Create a new user with a first and last name
-    val user = hashMapOf(
-        "first" to "Ada",
-        "last" to "Lovelace",
-        "points" to 0
-    )
-
-    firestoredb.collection("users")
-        .add(user)
-        .addOnSuccessListener { documentReference ->
-            Log.d("LEMON", "DocumentSnapshot added with ID: ${documentReference.id}")
-        }
-        .addOnFailureListener{e ->
-            Log.w("LEMON", "Error adding document", e)
-        }
-}
 
 @Composable
 fun RewardsScreen(menuViewModel: MenuViewModel) {
 
-    val isLoggedIn by menuViewModel.isLoggedIn.collectAsState()
+    var isLoggedIn by remember { mutableStateOf(false) }
+    var points by remember { mutableIntStateOf(0) }
 
     Column {
         MenuHeader(title = "Rewards")
 
         if (!isLoggedIn) {
-            RedeemRewards(556)
+            // Retrieve user points once logged in
+            val userId = "70" // Replace with actual user ID logic
+            LaunchedEffect(key1 = userId) {
+                menuViewModel.getPoints(userId)?.let { rewards ->
+                    points = rewards
+                }
+            }
+            RedeemRewards(points = points)
         } else {
-            GoogleSignInButton()
+            // Show the Google Sign-In button if not logged in
+            GoogleSignInButton(onSignInSuccess = { isLoggedIn = true })
+        }
+    }
+}
+
+@Composable
+fun RewardsScreen2(menuViewModel: MenuViewModel) {
+
+    var isLoggedIn by remember { mutableStateOf(false) }
+    var points by remember { mutableIntStateOf(0) }
+
+    Column {
+        MenuHeader(title = "Rewards")
+        if (!isLoggedIn) {
+            // Let's pretend we have successfully logged in with a new user
+            val userId = "70"
+            LaunchedEffect(key1 = userId) {
+                // We call the fun to get the points
+                points = menuViewModel.getPoints(userId)!!
+            }
+            // Here the user info is retrieved from the database
+            RedeemRewards(points = points)
+        } else {
+            GoogleSignInButton( onSignInSuccess = { isLoggedIn = true})
         }
     }
 }
@@ -111,7 +125,7 @@ fun Preview() {
 }
 
 @Composable
-fun RedeemRewards(points: Int) {
+fun RedeemRewards(points: Int?) {
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -147,7 +161,7 @@ fun RedeemRewards(points: Int) {
 }
 
 @Composable
-fun GoogleSignInButton() {
+fun GoogleSignInButton(onSignInSuccess: () -> Unit) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -180,6 +194,7 @@ fun GoogleSignInButton() {
 
                 Log.i(TAG, googleIdToken)
                 Toast.makeText(context, "You are signed in!", Toast.LENGTH_LONG).show()
+                onSignInSuccess()
 
             } catch(e: GetCredentialException) {
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

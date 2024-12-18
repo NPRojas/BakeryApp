@@ -25,8 +25,8 @@ class MenuViewModel(): ViewModel() {
         userRepository.updatePoints(userID, updatedPoints)
     }
 
-    fun retriveUser() {
-        userRepository.retriveUser("1")
+    fun getPoints(userId: String) : Int? {
+        return userRepository.getPoints(userId)
     }
 
     //--------------------------

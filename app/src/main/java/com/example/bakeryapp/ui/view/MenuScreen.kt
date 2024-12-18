@@ -72,7 +72,7 @@ fun MenuScreen(
                     navController.navigate("menu_item_details_screen/${menuItem.id}")
                 }
                 val user = User("1", 367)
-                Button(onClick = { viewModel.retriveUser() }) {
+                Button(onClick = { }) {
                     Text("USERRRR")
                 }
                 Button(onClick = { viewModel.updatePoints("1",3000) }) {

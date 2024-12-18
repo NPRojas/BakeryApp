@@ -27,21 +27,38 @@ class FirestoreRepository {
             }
     }
 
-    fun retriveUser(U) {
-
-    }
-
-    fun retriveRewardPoints(UserID: String) {
-        // try to retrive only the points by users
-        firestoredb.collection("users").document(UserID)
+    fun getPoints(userID: String): Int? {
+        var points: Int? = null
+        firestoredb.collection("users").document(userID)
             .get()
             .addOnSuccessListener { result ->
-                val points = result.get("points")
+                if (result.exists()) {
+                    // get the points from the user
+                    // convert points from Any to Int
+                    points = result.get("points").toString().toInt()
+                } else {
+                    // create a user and retrieve its points
+                    val user = User(userID)
+                    addUser(user)
+                     points = retrieveRewardPoints(userID).toString().toInt()
+                }
+            }
+        return points
+    }
+
+    private fun retrieveRewardPoints(userID: String) : Int? {
+        // try to retrieve only the points by users
+        var points: Int? = null
+        firestoredb.collection("users").document(userID)
+            .get()
+            .addOnSuccessListener { result ->
+                points = result.get("points").toString().toInt()
                 Log.d("LEMON", "$points")
             }
             .addOnFailureListener { exception ->
                 Log.w("LEMON", "Error getting documents.", exception)
             }
+        return points
 
     }
 

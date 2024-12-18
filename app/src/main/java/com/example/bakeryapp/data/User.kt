@@ -5,7 +5,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class User(
     var id: String,
-    var points: Int,
+    var points: Int = 0,
 ) {
 
     companion object {
