@@ -1,18 +1,14 @@
 package com.example.bakeryapp.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.bakeryapp.data.FirestoreRepository
 import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.MenuRepository
 import com.example.bakeryapp.data.OrderItem
 import com.example.bakeryapp.data.User
-import com.example.bakeryapp.presentation.sign_in.vol1.SignInResult
-import com.example.bakeryapp.presentation.sign_in.vol1.SignInState
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class MenuViewModel(): ViewModel() {
     private val userRepository = FirestoreRepository()
@@ -25,7 +21,7 @@ class MenuViewModel(): ViewModel() {
         userRepository.updatePoints(userID, updatedPoints)
     }
 
-    fun getPoints(userId: String) : Int? {
+    suspend fun getPoints(userId: String) : Int? {
         return userRepository.getPoints(userId)
     }
 
@@ -63,6 +59,93 @@ class MenuViewModel(): ViewModel() {
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn = _isLoggedIn.asStateFlow()
 
+    private val _points = MutableStateFlow(0)
+    val points: StateFlow<Int> = _points.asStateFlow()
 
+    private val _tempPoints = MutableStateFlow(0)
+    val tempPoints : StateFlow<Int> = _tempPoints.asStateFlow()
+
+    private val _pointsUsedForOrder = MutableStateFlow(0)
+    val pointsUsedForOrder : StateFlow<Int> = _pointsUsedForOrder.asStateFlow()
+
+    private val _totalDiscount = MutableStateFlow(0)
+    val totalDiscount : StateFlow<Int> = _totalDiscount.asStateFlow()
+
+    fun updateLocalPoints(points: Int) {
+            _points.value = points
+    }
+
+    fun updateTempPoints(points: Int) {
+        _tempPoints.value = points
+    }
+
+    fun updatedPointsUsed(points: Int) {
+        _pointsUsedForOrder.value = points
+    }
+
+    fun updateTotalDiscount(discount: Int) {
+        _totalDiscount.value = discount
+    }
+
+    fun checkLoggedIn(status : Boolean)  {
+        _isLoggedIn.value = status
+    }
+
+
+    //TODO: Fix the calculation on the function
+    fun useRewardPoints() {
+        val startingPoints = points.value
+        val tempPoints = tempPoints.value.toDouble()
+        // Convert points to cash
+        var rewardMoney = tempPoints / 100
+
+        val currentOrder = getCurrentOrder()
+        currentOrder.forEach { order ->
+            val itemPrice = order.menuItem.price.toDouble()
+
+            if (rewardMoney > 0) {
+                if (itemPrice <= rewardMoney) {
+                   rewardMoney -= itemPrice
+                } else {
+                    rewardMoney = 0.0
+                }
+            }
+        }
+
+        // Calculate and update the points used for the current order
+        val leftoverPoints = (rewardMoney*100).toInt()
+        val pointsUsedForOrder = (startingPoints - rewardMoney).toInt()
+        updatedPointsUsed(pointsUsedForOrder)
+        updateTempPoints(leftoverPoints)
+    }
+
+
+    fun discountPointsFromTotalOrder(pointsUsedForOrder: Int): Double {
+        if (points.value == 0) {
+            return getOrderTotalPrice()
+        } else {
+            var newOrderTotal: Double? = null
+            // get the item total price
+            val orderTotal = getOrderTotalPrice()
+            // get the amount of reward points used for the order
+            val pointsUsed = pointsUsedForOrder
+            // convert the points to money to the nearest dollar
+            val rewardMoney = pointsUsed.div(100)
+            updateTotalDiscount(rewardMoney)
+            // subtract the points from the total price
+            newOrderTotal = orderTotal - rewardMoney
+            val points = points
+            var newPointsTotal = points.value.minus(pointsUsed)
+            // see how much money is being spend and calculate rewards points for htst
+            val pointsEarnedFromOrder = repository.calculateNewRewardsPoints(newOrderTotal)?.toInt()
+            // add the new reward points and the leftover points
+            if (pointsEarnedFromOrder != null) {
+                newPointsTotal += pointsEarnedFromOrder
+            }
+            // push them to the database
+            return newOrderTotal
+        }
+    }
 
 }
+

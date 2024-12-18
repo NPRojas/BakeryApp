@@ -68,6 +68,7 @@ fun MenuItemDetailsScreen(
         Button(onClick = {
             val order = OrderItem(menuItem, quantity)
             viewModel.addToOrder(order)
+            viewModel.useRewardPoints()
             navController.popBackStack()},
             colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
             modifier = Modifier

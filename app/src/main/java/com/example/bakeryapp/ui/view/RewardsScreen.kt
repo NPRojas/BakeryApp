@@ -71,7 +71,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun RewardsScreen(menuViewModel: MenuViewModel) {
 
-    var isLoggedIn by remember { mutableStateOf(false) }
+    val isLoggedIn by menuViewModel.isLoggedIn.collectAsState()
     var points by remember { mutableIntStateOf(0) }
 
     Column {
@@ -86,9 +86,11 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
                 }
             }
             RedeemRewards(points = points)
+            menuViewModel.updateLocalPoints(points)
+
         } else {
             // Show the Google Sign-In button if not logged in
-            GoogleSignInButton(onSignInSuccess = { isLoggedIn = true })
+            GoogleSignInButton(onSignInSuccess = { menuViewModel.checkLoggedIn(true) })
         }
     }
 }

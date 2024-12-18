@@ -86,18 +86,13 @@ class MenuRepository {
         // get reward points from the database
     }
 
-    fun calculateNewRewardsPoints(): Double {
-        val totalPrice = getOrderTotalPrice()
-        val rewardPoints = totalPrice * 11
+    fun calculateNewRewardsPoints(totalPrice: Double?): Double? {
+        val rewardPoints = totalPrice?.times(11)
         // TODO: Add these points to the database
         return rewardPoints
     }
 
-    fun useRewardPoints() {
-        // use the retriveRewardsPoints function
-        // convert the points to cash
-        // discount that from the current price
-        // give me the leftover points to display on the menu screen
+    fun convertRewardPointsToCash(points: Int) {
 
     }
 }

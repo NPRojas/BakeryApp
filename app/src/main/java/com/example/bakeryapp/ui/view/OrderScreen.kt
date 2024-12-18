@@ -15,6 +15,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -29,7 +30,9 @@ import com.example.bakeryapp.ui.theme.primaryLight
 @Composable
 fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
     val orderItems = viewModel.getCurrentOrder()
-    val orderTotal= viewModel.getOrderTotalPrice()
+    val pointsUsed = viewModel.pointsUsedForOrder.collectAsState().value
+    val orderTotal= viewModel.discountPointsFromTotalOrder(pointsUsed)
+    val discountTotal = viewModel.totalDiscount.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -53,6 +56,10 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(10.dp))
+            Row() {
+                Text(text = "Discount Total:", style = MaterialTheme.typography.titleMedium, color = primaryLight)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = "$${discountTotal}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
 
             Row() {
                 Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium, color = primaryLight)

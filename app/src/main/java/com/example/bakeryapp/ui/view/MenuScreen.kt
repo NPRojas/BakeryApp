@@ -23,6 +23,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,6 +55,10 @@ fun MenuScreen(
 ) {
     // retrieve the menu items from vm
     val menuItems = viewModel.menuItems
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val points by viewModel.points.collectAsState()
+    val tempPoints by viewModel.tempPoints.collectAsState()
+
     Column(
         modifier = Modifier
             .background(onPrimaryLight)
@@ -60,7 +67,13 @@ fun MenuScreen(
     ){
         MenuHeader(title = "Menu")
         //TODO implement a box for rewards if logged in
-        RewardsBar(224)
+
+        if (!isLoggedIn && viewModel.getCurrentOrder().isNotEmpty()) {
+            RewardsBar(tempPoints)
+        } else if (!isLoggedIn) {
+            viewModel.updateTempPoints(points)
+            RewardsBar(points)
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -102,7 +115,7 @@ fun Menu() {
 }
 
 @Composable
-fun RewardsBar(points: Int) {
+fun RewardsBar(points: Int?) {
     Box(
         modifier = Modifier
             .background(primaryContainerLight)

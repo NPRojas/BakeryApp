@@ -4,6 +4,9 @@ import android.util.Log
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class FirestoreRepository {
     private val firestoredb = Firebase.firestore
@@ -27,24 +30,29 @@ class FirestoreRepository {
             }
     }
 
-    fun getPoints(userID: String): Int? {
-        var points: Int? = null
-        firestoredb.collection("users").document(userID)
-            .get()
-            .addOnSuccessListener { result ->
-                if (result.exists()) {
-                    // get the points from the user
-                    // convert points from Any to Int
-                    points = result.get("points").toString().toInt()
-                } else {
-                    // create a user and retrieve its points
-                    val user = User(userID)
-                    addUser(user)
-                     points = retrieveRewardPoints(userID).toString().toInt()
+    suspend fun getPoints(userID: String): Int {
+        return suspendCoroutine { continuation ->
+            firestoredb.collection("users").document(userID)
+                .get()
+                .addOnSuccessListener { result ->
+                    val points: Int
+                    if (result.exists()) {
+                        // Get the points from the user and convert to Int
+                        points = result.get("points").toString().toInt()
+                    } else {
+                        // Create a user and retrieve its points
+                        val user = User(userID)
+                        addUser(user)
+                        points = retrieveRewardPoints(userID).toString().toInt()
+                    }
+                    continuation.resume(points)
                 }
-            }
-        return points
+                .addOnFailureListener { exception ->
+                    continuation.resumeWithException(exception)
+                }
+        }
     }
+
 
     private fun retrieveRewardPoints(userID: String) : Int? {
         // try to retrieve only the points by users
