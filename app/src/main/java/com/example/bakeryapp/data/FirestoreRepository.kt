@@ -70,10 +70,12 @@ class FirestoreRepository {
 
     }
 
-    fun updatePoints(UserID : String, updatedPoints : Int){
-        val user = firestoredb.collection("users").document(UserID)
-            .update("points", updatedPoints )
-            .addOnSuccessListener { Log.d("LEMON", "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w("LEMON", "Error updating document", e) }
+    suspend fun updatePoints(userID : String, updatedPoints : Int){
+        return suspendCoroutine {
+            firestoredb.collection("users").document(userID)
+                .update("points", updatedPoints )
+                .addOnSuccessListener { Log.d("LEMON", "DocumentSnapshot successfully updated!")}
+                .addOnFailureListener { e -> Log.w("LEMON", "Error updating document", e) }
+        }
     }
 }

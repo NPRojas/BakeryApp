@@ -17,11 +17,11 @@ class MenuViewModel(): ViewModel() {
         userRepository.addUser(user)
     }
 
-    fun updatePoints(userID: String, updatedPoints: Int){
+    suspend fun updatePoints(userID: String, updatedPoints: Int){
         userRepository.updatePoints(userID, updatedPoints)
     }
 
-    suspend fun getPoints(userId: String) : Int? {
+    suspend fun getPoints(userId: String) : Int {
         return userRepository.getPoints(userId)
     }
 
@@ -67,6 +67,9 @@ class MenuViewModel(): ViewModel() {
 
     private val _pointsUsedForOrder = MutableStateFlow(0)
     val pointsUsedForOrder : StateFlow<Int> = _pointsUsedForOrder.asStateFlow()
+
+    private val _newPointsFromOrder = MutableStateFlow(0)
+    val newPointsFromOrder : StateFlow<Int> = _newPointsFromOrder.asStateFlow()
 
     private val _totalDiscount = MutableStateFlow(0)
     val totalDiscount : StateFlow<Int> = _totalDiscount.asStateFlow()
@@ -142,7 +145,8 @@ class MenuViewModel(): ViewModel() {
             if (pointsEarnedFromOrder != null) {
                 newPointsTotal += pointsEarnedFromOrder
             }
-            // push them to the database
+            // push them to the database?????
+            _newPointsFromOrder.value = newPointsTotal
             return newOrderTotal
         }
     }

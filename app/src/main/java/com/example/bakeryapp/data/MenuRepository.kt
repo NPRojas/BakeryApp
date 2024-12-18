@@ -88,7 +88,6 @@ class MenuRepository {
 
     fun calculateNewRewardsPoints(totalPrice: Double?): Double? {
         val rewardPoints = totalPrice?.times(11)
-        // TODO: Add these points to the database
         return rewardPoints
     }
 
@@ -96,3 +95,4 @@ class MenuRepository {
 
     }
 }
+

@@ -108,7 +108,7 @@ fun RewardsScreen2(menuViewModel: MenuViewModel) {
             val userId = "70"
             LaunchedEffect(key1 = userId) {
                 // We call the fun to get the points
-                points = menuViewModel.getPoints(userId)!!
+                points = menuViewModel.getPoints(userId)
             }
             // Here the user info is retrieved from the database
             RedeemRewards(points = points)

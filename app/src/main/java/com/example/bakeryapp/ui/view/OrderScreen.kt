@@ -15,7 +15,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -26,11 +28,15 @@ import com.example.bakeryapp.ui.order.OrderItemCard
 import com.example.bakeryapp.ui.theme.onPrimaryContainerLight
 import com.example.bakeryapp.ui.theme.onPrimaryLight
 import com.example.bakeryapp.ui.theme.primaryLight
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
     val orderItems = viewModel.getCurrentOrder()
     val pointsUsed = viewModel.pointsUsedForOrder.collectAsState().value
+    val newPointsEarned = viewModel.newPointsFromOrder.collectAsState().value
     val orderTotal= viewModel.discountPointsFromTotalOrder(pointsUsed)
     val discountTotal = viewModel.totalDiscount.collectAsState().value
 
@@ -56,6 +62,7 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(10.dp))
+
             Row() {
                 Text(text = "Discount Total:", style = MaterialTheme.typography.titleMedium, color = primaryLight)
                 Spacer(modifier = Modifier.weight(1f))
@@ -72,6 +79,9 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
         val context = LocalContext.current
         Button(onClick = {
             Toast.makeText(context, "Order Received!", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.updatePoints("70", newPointsEarned)
+            }
             viewModel.deleteOrder()
             navController.navigate("menu_screen")
         },
