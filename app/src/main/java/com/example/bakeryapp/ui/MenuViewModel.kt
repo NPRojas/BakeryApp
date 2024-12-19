@@ -98,34 +98,39 @@ class MenuViewModel(): ViewModel() {
     //TODO: Fix the calculation on the function
     fun useRewardPoints() {
         val startingPoints = points.value
-        val tempPoints = tempPoints.value.toDouble()
-        // Convert points to cash
-        var rewardMoney = tempPoints / 100
+        val tempPoints = tempPoints.value
+        if (startingPoints > 100) {
+            // Convert points to cash
+            var rewardMoney = (tempPoints / 100)
 
-        val currentOrder = getCurrentOrder()
-        currentOrder.forEach { order ->
-            val itemPrice = order.menuItem.price.toDouble()
+            val currentOrder = getCurrentOrder()
+            currentOrder.forEach { order ->
+                val itemPrice = order.menuItem.price.toInt()
 
-            if (rewardMoney > 0) {
-                if (itemPrice <= rewardMoney) {
-                   rewardMoney -= itemPrice
+                if (rewardMoney > 1) {
+                    rewardMoney -= itemPrice
                 } else {
-                    rewardMoney = 0.0
+                    rewardMoney = 0
                 }
             }
-        }
 
-        // Calculate and update the points used for the current order
-        val leftoverPoints = (rewardMoney*100).toInt()
-        val pointsUsedForOrder = (startingPoints - rewardMoney).toInt()
-        updatedPointsUsed(pointsUsedForOrder)
-        updateTempPoints(leftoverPoints)
+            // Calculate and update the points used for the current order
+            val leftoverPoints = (rewardMoney*100)
+            val pointsUsedForOrder = (startingPoints - leftoverPoints)
+            updatedPointsUsed(pointsUsedForOrder)
+            updateTempPoints(leftoverPoints)
+        }
     }
 
 
     fun discountPointsFromTotalOrder(pointsUsedForOrder: Int): Double {
-        if (points.value == 0) {
-            return getOrderTotalPrice()
+        if (points.value < 100) {
+            val orderTotal = getOrderTotalPrice()
+            val newPoints = repository.calculateNewRewardsPoints(orderTotal)
+            val unusedPoints = points.value
+            val pointsEarned = newPoints + unusedPoints
+            _newPointsFromOrder.value = pointsEarned.toInt()
+            return orderTotal
         } else {
             var newOrderTotal: Double? = null
             // get the item total price
@@ -140,11 +145,9 @@ class MenuViewModel(): ViewModel() {
             val points = points
             var newPointsTotal = points.value.minus(pointsUsed)
             // see how much money is being spend and calculate rewards points for htst
-            val pointsEarnedFromOrder = repository.calculateNewRewardsPoints(newOrderTotal)?.toInt()
+            val pointsEarnedFromOrder = repository.calculateNewRewardsPoints(newOrderTotal).toInt()
             // add the new reward points and the leftover points
-            if (pointsEarnedFromOrder != null) {
-                newPointsTotal += pointsEarnedFromOrder
-            }
+            newPointsTotal += pointsEarnedFromOrder
             // push them to the database?????
             _newPointsFromOrder.value = newPointsTotal
             return newOrderTotal

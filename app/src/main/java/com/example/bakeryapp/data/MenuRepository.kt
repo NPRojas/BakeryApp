@@ -1,10 +1,6 @@
 package com.example.bakeryapp.data
 
-import androidx.compose.runtime.currentCompositionErrors
 import com.example.bakeryapp.R
-import com.google.firebase.firestore.firestoreSettings
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 // This is a mock repository as this is app is meant for front end practice
 
@@ -86,8 +82,8 @@ class MenuRepository {
         // get reward points from the database
     }
 
-    fun calculateNewRewardsPoints(totalPrice: Double?): Double? {
-        val rewardPoints = totalPrice?.times(11)
+    fun calculateNewRewardsPoints(totalPrice: Double): Double {
+        val rewardPoints = totalPrice.times(11)
         return rewardPoints
     }
 

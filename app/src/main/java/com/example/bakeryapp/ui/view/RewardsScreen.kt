@@ -111,6 +111,7 @@ fun RewardsScreen2(menuViewModel: MenuViewModel) {
                 points = menuViewModel.getPoints(userId)
             }
             // Here the user info is retrieved from the database
+            //TODO: IMPLEMENT A CONDITIONAL THAT STATES YOU HAVE HAVE A MINIM OF 100 POINTS
             RedeemRewards(points = points)
         } else {
             GoogleSignInButton( onSignInSuccess = { isLoggedIn = true})
