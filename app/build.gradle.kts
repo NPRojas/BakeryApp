@@ -71,6 +71,9 @@ dependencies {
     //lifecycle dependency
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.coil.compose)
+    // JWT Parser --- maybe firebase auth can be used instead
+    implementation (libs.java.jwt)
+
 
 
     implementation(libs.androidx.core.ktx)

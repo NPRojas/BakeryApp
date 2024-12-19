@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -31,14 +32,17 @@ import com.example.bakeryapp.ui.theme.primaryLight
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.pow
 
 @Composable
 fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
     val orderItems = viewModel.getCurrentOrder()
     val pointsUsed = viewModel.pointsUsedForOrder.collectAsState().value
     val newPointsEarned = viewModel.newPointsFromOrder.collectAsState().value
-    val orderTotal= viewModel.discountPointsFromTotalOrder(pointsUsed)
+    val orderTotal = viewModel.discountPointsFromTotalOrder(pointsUsed)
     val discountTotal = viewModel.totalDiscount.collectAsState().value
+    val userId = viewModel.userId.collectAsState().value
+
 
     Column(
         modifier = Modifier
@@ -71,7 +75,7 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
             Row() {
                 Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium, color = primaryLight)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "$${orderTotal}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
+                Text(text = "$${orderTotal.pow(2)}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
             }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -80,7 +84,7 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
         Button(onClick = {
             Toast.makeText(context, "Order Received!", Toast.LENGTH_SHORT).show()
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.updatePoints("70", newPointsEarned)
+                viewModel.updatePoints(userId, newPointsEarned)
             }
             viewModel.deleteOrder()
             navController.navigate("menu_screen")

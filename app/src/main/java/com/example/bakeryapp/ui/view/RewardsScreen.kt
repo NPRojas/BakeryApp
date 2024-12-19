@@ -44,6 +44,7 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bakeryapp.R
 import com.example.bakeryapp.data.User
 import com.example.bakeryapp.presentation.sign_in.vol1.GoogleAuthUiClient
@@ -70,18 +71,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RewardsScreen(menuViewModel: MenuViewModel) {
-
+    val token by menuViewModel.googleToken.collectAsState()
     val isLoggedIn by menuViewModel.isLoggedIn.collectAsState()
     var points by remember { mutableIntStateOf(0) }
 
     Column {
         MenuHeader(title = "Rewards")
+            //TODO: Figure out my it crashes when using a new user
+        if (isLoggedIn) {
+            val userId = token.let { menuViewModel.parseGoogleToken(it) }
+            menuViewModel.updateUserId(userId)
 
-        if (!isLoggedIn) {
-            // Retrieve user points once logged in
-            val userId = "70" // Replace with actual user ID logic
             LaunchedEffect(key1 = userId) {
-                menuViewModel.getPoints(userId)?.let { rewards ->
+                menuViewModel.getPoints(userId).let { rewards ->
                     points = rewards
                 }
             }
@@ -90,31 +92,7 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
 
         } else {
             // Show the Google Sign-In button if not logged in
-            GoogleSignInButton(onSignInSuccess = { menuViewModel.checkLoggedIn(true) })
-        }
-    }
-}
-
-@Composable
-fun RewardsScreen2(menuViewModel: MenuViewModel) {
-
-    var isLoggedIn by remember { mutableStateOf(false) }
-    var points by remember { mutableIntStateOf(0) }
-
-    Column {
-        MenuHeader(title = "Rewards")
-        if (!isLoggedIn) {
-            // Let's pretend we have successfully logged in with a new user
-            val userId = "70"
-            LaunchedEffect(key1 = userId) {
-                // We call the fun to get the points
-                points = menuViewModel.getPoints(userId)
-            }
-            // Here the user info is retrieved from the database
-            //TODO: IMPLEMENT A CONDITIONAL THAT STATES YOU HAVE HAVE A MINIM OF 100 POINTS
-            RedeemRewards(points = points)
-        } else {
-            GoogleSignInButton( onSignInSuccess = { isLoggedIn = true})
+            GoogleSignInButton(menuViewModel, onSignInSuccess = { menuViewModel.checkLoggedIn(true) })
         }
     }
 }
@@ -164,7 +142,7 @@ fun RedeemRewards(points: Int?) {
 }
 
 @Composable
-fun GoogleSignInButton(onSignInSuccess: () -> Unit) {
+fun GoogleSignInButton(menuViewModel: MenuViewModel, onSignInSuccess: () -> Unit) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -194,6 +172,8 @@ fun GoogleSignInButton(onSignInSuccess: () -> Unit) {
                     .createFrom(credential.data)
 
                 val googleIdToken = googleIdTokenCredential.idToken
+
+                menuViewModel.updateGoogleToken(googleIdToken)
 
                 Log.i(TAG, googleIdToken)
                 Toast.makeText(context, "You are signed in!", Toast.LENGTH_LONG).show()

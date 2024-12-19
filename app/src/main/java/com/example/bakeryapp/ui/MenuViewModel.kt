@@ -1,6 +1,7 @@
 package com.example.bakeryapp.ui
 
 import androidx.lifecycle.ViewModel
+import com.auth0.jwt.JWT
 import com.example.bakeryapp.data.FirestoreRepository
 import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.MenuRepository
@@ -74,6 +75,12 @@ class MenuViewModel(): ViewModel() {
     private val _totalDiscount = MutableStateFlow(0)
     val totalDiscount : StateFlow<Int> = _totalDiscount.asStateFlow()
 
+    private val _googleToken = MutableStateFlow("null")
+    val googleToken = _googleToken.asStateFlow()
+
+    private val _userId = MutableStateFlow("null")
+    val userId = _userId.asStateFlow()
+
     fun updateLocalPoints(points: Int) {
             _points.value = points
     }
@@ -92,6 +99,13 @@ class MenuViewModel(): ViewModel() {
 
     fun checkLoggedIn(status : Boolean)  {
         _isLoggedIn.value = status
+    }
+
+    fun updateGoogleToken(token: String) {
+        _googleToken.value = token
+    }
+    fun updateUserId(id: String) {
+        _userId.value = id
     }
 
 
@@ -154,5 +168,9 @@ class MenuViewModel(): ViewModel() {
         }
     }
 
+    fun parseGoogleToken(token : String): String {
+        val jwt = JWT.decode(token)
+        return jwt.getClaim("sub").asString()
+    }
 }
 
