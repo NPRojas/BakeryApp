@@ -19,6 +19,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -109,19 +112,16 @@ fun Menu() {
 
 @Composable
 fun RewardsBar(points: Int?) {
-    Box(
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = primaryContainerLight
+        ),
         modifier = Modifier
-            .background(primaryContainerLight)
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .border(
-                width = 1.dp,
-                color = onPrimaryContainerLight,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .padding(8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
