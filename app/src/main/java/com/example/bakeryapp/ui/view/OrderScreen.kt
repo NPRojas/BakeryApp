@@ -32,6 +32,7 @@ import com.example.bakeryapp.ui.theme.primaryLight
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import kotlin.math.pow
 
 @Composable
@@ -75,7 +76,8 @@ fun OrderScreen(viewModel: MenuViewModel, navController: NavController) {
             Row() {
                 Text(text = "Total Price:", style = MaterialTheme.typography.titleMedium, color = primaryLight)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "$${orderTotal.pow(2)}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
+                val df = DecimalFormat("#.##")
+                Text(text = "$${df.format(orderTotal)}", style = MaterialTheme.typography.titleMedium, color = primaryLight)}
             }
 
         Spacer(modifier = Modifier.weight(1f))

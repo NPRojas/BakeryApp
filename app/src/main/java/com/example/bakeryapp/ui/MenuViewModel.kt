@@ -117,15 +117,20 @@ class MenuViewModel(): ViewModel() {
             // Convert points to cash
             var rewardMoney = (tempPoints / 100)
 
-            val currentOrder = getCurrentOrder()
-            currentOrder.forEach { order ->
-                val itemPrice = order.menuItem.price.toInt()
+            val currentOrder = getCurrentOrder().filter { orderItem ->
+                !repository.processedMenuItems.contains(orderItem.individualItemId)
+            }
+
+            currentOrder.forEach { orderItem ->
+                val itemPrice = orderItem.menuItem.price.toInt()
 
                 if (rewardMoney > 1) {
                     rewardMoney -= itemPrice
                 } else {
                     rewardMoney = 0
                 }
+
+                repository.processedMenuItems.add(orderItem.individualItemId)
             }
 
             // Calculate and update the points used for the current order

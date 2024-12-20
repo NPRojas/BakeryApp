@@ -18,8 +18,9 @@ class MenuRepository {
         MenuItem(8, "Blueberry Scone", 4.25, R.drawable.blueberry_scones)
     )
 
-
     val currentOrder = mutableListOf<OrderItem>()
+
+    val processedMenuItems = mutableListOf<String>()
 
     fun getMenuItems(): List<MenuItem> {
         return menuItems
@@ -37,25 +38,7 @@ class MenuRepository {
     }
 
     fun addToOrder(orderItem: OrderItem) {
-
-        // if the orderItem menuItem is already found in the list, then add plus 1 to the quantity
-        val itemInOrder = currentOrder
-            .any { it.menuItem == orderItem.menuItem }
-
-        if (itemInOrder) {
-            val existingItemIndex = currentOrder
-                .indexOfFirst { it.menuItem == orderItem.menuItem }
-
-            if (existingItemIndex != -1) {
-                val existingItem = currentOrder[existingItemIndex]
-                val updatedQuantity = existingItem.quantity + 1
-                val updatedItem = existingItem
-                    .copy(quantity = updatedQuantity)
-                currentOrder[existingItemIndex] = updatedItem
-            }
-        } else {
-            currentOrder.add(orderItem)
-        }
+        currentOrder.add(orderItem)
     }
 
     fun getOrder() : List<OrderItem> {
@@ -68,6 +51,7 @@ class MenuRepository {
 
     fun deleteOrder() {
         currentOrder.clear()
+        processedMenuItems.clear()
     }
 
     //TODO: add these funtions to the viewmodel
