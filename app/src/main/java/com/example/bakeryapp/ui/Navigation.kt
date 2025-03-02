@@ -42,7 +42,7 @@ fun Navigation(
         }
 
         composable(route = "rewards_screen") {
-            RewardsScreen(viewModel)
+            RewardsScreen(viewModel, navCon)
         }
     }
 }

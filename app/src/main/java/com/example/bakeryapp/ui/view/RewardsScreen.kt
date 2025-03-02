@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -45,6 +46,8 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.bakeryapp.R
 import com.example.bakeryapp.data.User
 import com.example.bakeryapp.presentation.sign_in.vol1.GoogleAuthUiClient
@@ -70,7 +73,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun RewardsScreen(menuViewModel: MenuViewModel) {
+fun RewardsScreen(menuViewModel: MenuViewModel, navCon: NavController) {
     val token by menuViewModel.googleToken.collectAsState()
     val isLoggedIn by menuViewModel.isLoggedIn.collectAsState()
     var points by remember { mutableIntStateOf(0) }
@@ -87,7 +90,7 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
                     points = rewards
                 }
             }
-            RedeemRewards(points = points)
+            RedeemRewards(points = points, navCon)
             menuViewModel.updateLocalPoints(points)
 
         } else {
@@ -101,12 +104,13 @@ fun RewardsScreen(menuViewModel: MenuViewModel) {
 @Composable
 fun Preview() {
     BakeryAppTheme {
-        RedeemRewards(100)
+        val navCon = rememberNavController()
+        RedeemRewards(100, navCon)
     }
 }
 
 @Composable
-fun RedeemRewards(points: Int?) {
+fun RedeemRewards(points: Int?, navCon: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -126,7 +130,7 @@ fun RedeemRewards(points: Int?) {
 
         ) {
             Text("My Points \n $points",
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 color = primaryLight,
                 textAlign = TextAlign.Center)
         }
@@ -135,7 +139,9 @@ fun RedeemRewards(points: Int?) {
             colors = ButtonDefaults.buttonColors(containerColor = onPrimaryContainerLight),
             modifier = Modifier.offset(24.dp),
             //TODO Implement a nav to the main screen
-            onClick = {}) {
+            onClick = {
+                navCon.navigate("menu_screen")
+            }) {
             Text(text = "Redeem Rewards", style = MaterialTheme.typography.titleMedium, color = onPrimaryLight)
         }
     }
@@ -187,8 +193,16 @@ fun GoogleSignInButton(menuViewModel: MenuViewModel, onSignInSuccess: () -> Unit
 
         }
     }
-
-    Button(onClick = onClick) {
-        Text("Sign in with Google")
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        Button(
+            onClick = { onClick() },
+            colors = ButtonDefaults.buttonColors(onPrimaryContainerLight)
+        ) {
+            Text(text = "Sign in with Google", color = onPrimaryLight, style = MaterialTheme.typography.titleMedium)
+        }
     }
 }

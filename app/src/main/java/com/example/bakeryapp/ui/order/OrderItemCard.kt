@@ -62,7 +62,7 @@ fun OrderItemCard(orderItem: OrderItem, onDeleteMenuItem: () -> Unit) {
                 Text(text = "$${orderItem.menuItem.price * orderItem.quantity}", style = MaterialTheme.typography.bodyMedium, color = primaryLight)
             }
             Row {
-                DeleteItemButton(onDeleteMenuItem)
+                DeleteItemButton({onDeleteMenuItem()})
             }
         }
     }
