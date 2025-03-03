@@ -1,4 +1,4 @@
-package com.example.bakeryapp.presentation.sign_in
+package com.example.bakeryapp.presentation.sign_in.vol1
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,6 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.oAuthProvider
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 

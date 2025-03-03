@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,20 +52,28 @@ android {
 }
 
 dependencies {
-    // TODO: reformat this dependency to match the others   
-    implementation("androidx.navigation:navigation-compose:2.8.4")
-    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+
+    implementation(libs.androidx.navigation.compose.v285)
+    implementation(libs.androidx.material.icons.extended)
     // credential manager
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     //firebase
-    implementation ("com.google.firebase:firebase-bom:32.0.0") // ATTN: what does this do?
-    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
-    implementation("com.google.android.gms:play-services-auth:20.4.1")
+        // import the BoM for the Firebase platform
+    implementation(platform(libs.firebase.bom))
+        // add the dependency for the firebase auth lib
+        // When using the BoM, you don't specify versions in Firebase Library
+    implementation(libs.firebase.auth)
+        // add the dependency for the google play services library
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.ui.auth)
     //lifecycle dependency
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.coil.compose)
+    // JWT Parser --- maybe firebase auth can be used instead
+    implementation (libs.java.jwt)
+
 
 
     implementation(libs.androidx.core.ktx)
@@ -75,6 +85,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,8 +1,6 @@
 package com.example.bakeryapp.ui.order
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,24 +9,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.bakeryapp.R
+import com.example.bakeryapp.data.MenuItem
 import com.example.bakeryapp.data.OrderItem
 import com.example.bakeryapp.ui.theme.primaryContainerLight
 import com.example.bakeryapp.ui.theme.primaryLight
+import com.example.bakeryapp.ui.theme.secondaryContainerDark
 
 @Composable
-fun OrderItemCard(orderItem: OrderItem) {
+fun OrderItemCard(orderItem: OrderItem, onDeleteMenuItem: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = primaryContainerLight),
@@ -56,6 +61,27 @@ fun OrderItemCard(orderItem: OrderItem) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(text = "$${orderItem.menuItem.price * orderItem.quantity}", style = MaterialTheme.typography.bodyMedium, color = primaryLight)
             }
+            Row {
+                DeleteItemButton({onDeleteMenuItem()})
+            }
         }
     }
+}
+
+@Composable
+fun DeleteItemButton(deleteMenuItem: () -> Unit) {
+
+    IconButton(onClick = { deleteMenuItem() }) {
+        Icon(Icons.Default.Cancel,
+            contentDescription = "Delete Item",
+            tint = secondaryContainerDark,
+            modifier = Modifier.size(20.dp))
+    }
+}
+
+@Preview
+@Composable
+fun Test() {
+    val menuItem = MenuItem(23, "Cinnamon Roll", 2.45, R.drawable.coffee)
+    val orderItem = OrderItem(menuItem, 2)
 }

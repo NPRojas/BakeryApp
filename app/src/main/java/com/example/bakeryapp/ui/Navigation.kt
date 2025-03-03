@@ -1,22 +1,13 @@
 package com.example.bakeryapp.ui
 
-import android.app.Activity.RESULT_OK
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.bakeryapp.ui.menu.MenuHeader
 import com.example.bakeryapp.ui.view.MenuItemDetailsScreen
 import com.example.bakeryapp.ui.view.MenuScreen
 import com.example.bakeryapp.ui.view.OrderScreen
@@ -24,7 +15,10 @@ import com.example.bakeryapp.ui.view.RewardsScreen
 
 
 @Composable
-fun Navigation(navCon: NavHostController, viewModel: MenuViewModel, modifier: Modifier) {
+fun Navigation(
+    navCon: NavHostController,
+    viewModel: MenuViewModel,
+    modifier: Modifier) {
 
     NavHost(navController = navCon, startDestination = "menu_screen", modifier = modifier) {
 
@@ -48,7 +42,7 @@ fun Navigation(navCon: NavHostController, viewModel: MenuViewModel, modifier: Mo
         }
 
         composable(route = "rewards_screen") {
-            RewardsScreen(viewModel)
+            RewardsScreen(viewModel, navCon)
         }
     }
 }

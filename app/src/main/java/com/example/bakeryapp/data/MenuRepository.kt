@@ -4,7 +4,7 @@ import com.example.bakeryapp.R
 
 // This is a mock repository as this is app is meant for front end practice
 
-object MenuRepository {
+class MenuRepository {
 
     private val menuItems = listOf(
         MenuItem(0, "Iced Coffee", 2.99, R.drawable.coffee),
@@ -18,8 +18,9 @@ object MenuRepository {
         MenuItem(8, "Blueberry Scone", 4.25, R.drawable.blueberry_scones)
     )
 
-
     val currentOrder = mutableListOf<OrderItem>()
+
+    val processedMenuItems = mutableListOf<String>()
 
     fun getMenuItems(): List<MenuItem> {
         return menuItems
@@ -50,5 +51,28 @@ object MenuRepository {
 
     fun deleteOrder() {
         currentOrder.clear()
+        processedMenuItems.clear()
+    }
+
+    //TODO: add these funtions to the viewmodel
+
+    fun deleteMenuItemFromOrder(orderItem: OrderItem) {
+        // find the menu item in the current order and delete it
+        val itemInOrder = currentOrder.find { it.menuItem == orderItem.menuItem}
+        currentOrder.remove(itemInOrder)
+    }
+
+    fun retriveRewardsPoints() {
+        // get reward points from the database
+    }
+
+    fun calculateNewRewardsPoints(totalPrice: Double): Double {
+        val rewardPoints = totalPrice.times(11)
+        return rewardPoints
+    }
+
+    fun convertRewardPointsToCash(points: Int) {
+
     }
 }
+
