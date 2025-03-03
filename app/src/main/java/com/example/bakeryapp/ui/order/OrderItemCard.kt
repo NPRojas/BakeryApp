@@ -46,9 +46,9 @@ fun OrderItemCard(orderItem: OrderItem, onDeleteMenuItem: () -> Unit) {
             modifier = Modifier
                 .padding(16.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            MenuItemImage(imageName = orderItem.menuItem.img,
-                modifier = Modifier
-                    .size(85.dp).clip(CircleShape))
+//            MenuItemImage(imageName = orderItem.menuItem.img,
+//                modifier = Modifier
+//                    .size(85.dp).clip(CircleShape))
 
             Spacer(modifier = Modifier.width(16.dp))
             Column (

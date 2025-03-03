@@ -51,9 +51,9 @@ fun MenuItemDetailsScreen(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        MenuItemImage(imageName = menuItem.img,
-            modifier = Modifier
-                .fillMaxWidth())
+//        MenuItemImage(imageName = menuItem.img,
+//            modifier = Modifier
+//                .fillMaxWidth())
 
         Spacer(modifier = Modifier.height(10.dp))
 
