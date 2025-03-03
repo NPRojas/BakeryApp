@@ -21,7 +21,6 @@ class MenuRepository(private val context: Context) {
 //        MenuItem(7, "Raspberry Rugelach", 3.50, R.drawable.raspberry_rugelach),
 //        MenuItem(8, "Blueberry Scone", 4.25, R.drawable.blueberry_scones)
 //    )
-    private val gson = Gson()
 
     val currentOrder = mutableListOf<OrderItem>()
 
@@ -36,6 +35,7 @@ class MenuRepository(private val context: Context) {
 
     fun getMenuItems(): List<MenuItem> {
         val json = loadMenuAssets()
+        val gson = Gson()
         return gson.fromJson(json, object : TypeToken<List<MenuItem>>() {}.type)
     }
 

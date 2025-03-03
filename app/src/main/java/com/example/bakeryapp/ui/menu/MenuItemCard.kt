@@ -51,9 +51,9 @@ fun MenuItemCard (item: MenuItem, onClick:() -> Unit) {
             modifier = Modifier
                 .padding(16.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            MenuItemImage(imageName = item.img,
-                modifier = Modifier
-                .size(100.dp).clip(CircleShape))
+//            MenuItemImage(imageName = item.img,
+//                modifier = Modifier
+//                .size(100.dp).clip(CircleShape))
 
             Spacer(modifier = Modifier.width(16.dp))
             Column (

@@ -69,8 +69,6 @@ fun MenuScreen(
             .padding(16.dp)
     ){
         MenuHeader(title = "Menu")
-        //TODO implement a box for rewards if logged in
-
         if (isLoggedIn && viewModel.getCurrentOrder().isNotEmpty()) {
             RewardsBar(tempPoints)
         } else if (isLoggedIn) {
