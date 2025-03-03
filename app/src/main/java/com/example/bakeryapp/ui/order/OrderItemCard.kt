@@ -31,6 +31,7 @@ import com.example.bakeryapp.data.OrderItem
 import com.example.bakeryapp.ui.theme.primaryContainerLight
 import com.example.bakeryapp.ui.theme.primaryLight
 import com.example.bakeryapp.ui.theme.secondaryContainerDark
+import com.example.bakeryapp.ui.view.MenuItemImage
 
 @Composable
 fun OrderItemCard(orderItem: OrderItem, onDeleteMenuItem: () -> Unit) {
@@ -45,13 +46,10 @@ fun OrderItemCard(orderItem: OrderItem, onDeleteMenuItem: () -> Unit) {
             modifier = Modifier
                 .padding(16.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            MenuItemImage(imageName = orderItem.menuItem.img,
                 modifier = Modifier
-                    .size(85.dp)
-                    .clip(CircleShape),
-                painter = painterResource(id = orderItem.menuItem.img),
-                contentDescription = null
-            )
+                    .size(85.dp).clip(CircleShape))
+
             Spacer(modifier = Modifier.width(16.dp))
             Column (
                 modifier = Modifier
@@ -82,6 +80,6 @@ fun DeleteItemButton(deleteMenuItem: () -> Unit) {
 @Preview
 @Composable
 fun Test() {
-    val menuItem = MenuItem(23, "Cinnamon Roll", 2.45, R.drawable.coffee)
+    val menuItem = MenuItem(23, "Cinnamon Roll", 2.45,"coffee")
     val orderItem = OrderItem(menuItem, 2)
 }
