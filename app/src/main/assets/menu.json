@@ -15,42 +15,42 @@
     "id": 2,
     "name": "Croissant Sandwich",
     "price": 5.50,
-    "image": "croissant"
+    "image": "croissant.png"
   },
   {
     "id": 3,
     "name": "Rose Macaron",
     "price": 2.99,
-    "image": "rose_macaron"
+    "image": "rose_macaron.png"
   },
   {
     "id": 4,
     "name": "Chocolate Chip Walnut Cookie",
     "price": 4.00,
-    "image": "chocolate_chip_walnut_cookies"
+    "image": "chocolate_chip_walnut_cookies.png"
   },
   {
     "id": 5,
     "name": "Cream Puff",
     "price": 5.50,
-    "image": "cream_puffs"
+    "image": "cream_puffs.png"
   },
   {
     "id": 6,
     "name": "Apple Cinnamon Danish",
     "price": 5.25,
-    "image": "apple_cinnamon_danish"
+    "image": "apple_cinnamon_danish.png"
   },
   {
     "id": 7 ,
     "name": "Raspberry Rugelach",
     "price": 3.50,
-    "image": "raspberry_rugelach"
+    "image": "raspberry_rugelach.png"
   },
   {
     "id": 8,
     "name": "Blueberry Scone",
     "price": 4.25 ,
-    "image": "blueberry_scones"
+    "image": "blueberry_scones.png"
   }
 ]

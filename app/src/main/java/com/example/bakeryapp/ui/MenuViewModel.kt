@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class MenuViewModel(): ViewModel() {
+class MenuViewModel(private val repository: MenuRepository): ViewModel() {
     private val userRepository = FirestoreRepository()
 
     fun addUser (user: User) {
@@ -28,8 +28,6 @@ class MenuViewModel(): ViewModel() {
     }
 
     //--------------------------
-
-    private val repository = MenuRepository(context)
 
     val menuItems = repository.getMenuItems()
 
