@@ -1,5 +1,6 @@
 package com.example.bakeryapp.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.auth0.jwt.JWT
 import com.example.bakeryapp.data.FirestoreRepository
@@ -28,7 +29,7 @@ class MenuViewModel(): ViewModel() {
 
     //--------------------------
 
-    private val repository = MenuRepository()
+    private val repository = MenuRepository(context)
 
     val menuItems = repository.getMenuItems()
 

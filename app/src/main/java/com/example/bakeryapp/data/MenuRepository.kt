@@ -1,10 +1,14 @@
 package com.example.bakeryapp.data
 
+import android.content.Context
 import com.example.bakeryapp.R
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+import com.google.gson.Gson
+
 
 // This is a mock repository as this is app is meant for front end practice
 
-class MenuRepository {
+class MenuRepository(private val context: Context) {
 
     private val menuItems = listOf(
         MenuItem(0, "Iced Coffee", 2.99, R.drawable.coffee),
@@ -17,13 +21,22 @@ class MenuRepository {
         MenuItem(7, "Raspberry Rugelach", 3.50, R.drawable.raspberry_rugelach),
         MenuItem(8, "Blueberry Scone", 4.25, R.drawable.blueberry_scones)
     )
+    private val gson = Gson()
 
     val currentOrder = mutableListOf<OrderItem>()
 
     val processedMenuItems = mutableListOf<String>()
 
+    private fun loadMenuAssets(): String {
+        return context.assets.open("menu.json")
+            .bufferedReader().use {
+                it.readText()
+            }
+    }
+
     fun getMenuItems(): List<MenuItem> {
-        return menuItems
+        val json = loadMenuAssets()
+        return gson.fromJson(json, object : TypeToken<List<MenuItem>>() {}.type)
     }
 
     fun getMenuItemById(itemId: Int): MenuItem {

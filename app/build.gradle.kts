@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.coil.compose)
     // JWT Parser --- maybe firebase auth can be used instead
     implementation (libs.java.jwt)
+    // Gson JSON to/from JAVA object parser
+    implementation(libs.gson)
 
 
 
@@ -86,6 +88,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

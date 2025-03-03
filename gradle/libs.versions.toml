@@ -6,6 +6,7 @@ firebaseBom = "33.7.0"
 firebaseUiAuth = "8.0.2"
 googleid = "1.1.1"
 googleServices = "4.4.2"
+gson = "2.10.1"
 javaJwt = "4.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -22,6 +23,7 @@ navigationComposeVersion = "2.8.5"
 playServicesAuth = "21.3.0"
 uiTextGoogleFonts = "1.7.5"
 firebaseFirestoreKtx = "25.1.1"
+firebaseCrashlyticsBuildtools = "3.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 java-jwt = { module = "com.auth0:java-jwt", version.ref = "javaJwt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -54,6 +57,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
