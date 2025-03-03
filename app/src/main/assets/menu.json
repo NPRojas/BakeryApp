@@ -1,0 +1,56 @@
+[
+  {
+    "id": 0,
+    "name": "Iced Coffee",
+    "price": 2.99,
+    "image": "coffee"
+  },
+  {
+    "id": 1,
+    "name": "Bagel with Cream Cheese",
+    "price": 4.75,
+    "image": "bagel"
+  },
+  {
+    "id": 2,
+    "name": "Croissant Sandwich",
+    "price": 5.50,
+    "image": "croissant"
+  },
+  {
+    "id": 3,
+    "name": "Rose Macaron",
+    "price": 2.99,
+    "image": "rose_macaron"
+  },
+  {
+    "id": 4,
+    "name": "Chocolate Chip Walnut Cookie",
+    "price": 4.00,
+    "image": "chocolate_chip_walnut_cookies"
+  },
+  {
+    "id": 5,
+    "name": "Cream Puff",
+    "price": 5.50,
+    "image": "cream_puffs"
+  },
+  {
+    "id": 6,
+    "name": "Apple Cinnamon Danish",
+    "price": 5.25,
+    "image": "apple_cinnamon_danish"
+  },
+  {
+    "id": 7 ,
+    "name": "Raspberry Rugelach",
+    "price": 3.50,
+    "image": "raspberry_rugelach"
+  },
+  {
+    "id": 8,
+    "name": "Blueberry Scone",
+    "price": 4.25 ,
+    "image": "blueberry_scones"
+  }
+]
