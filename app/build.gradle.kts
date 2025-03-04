@@ -75,8 +75,8 @@ dependencies {
     implementation (libs.java.jwt)
     // Gson JSON to/from JAVA object parser
     implementation(libs.gson)
-
-
+    // Mockito for unit testing
+    testImplementation (libs.mockito.core)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
