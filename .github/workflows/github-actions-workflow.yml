@@ -1,0 +1,39 @@
+name: Release to Firebase Distribution Testing
+run-name: ${{ github.actor }} is deploying to Firebase
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: 'gradle'
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x gradlew
+
+      - name: Run UI + "Unit" tests
+        run: ./gradlew connectedAndroidTest
+
+      - name: Build APK
+        run: ./gradlew assembleRelease 
+
+      - name: Upload app to testers using Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: app/build/outputs/apk/release/app-release-unsigned.apk
+
+
