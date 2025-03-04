@@ -13,7 +13,7 @@ import com.example.bakeryapp.ui.view.MenuScreen
 import com.example.bakeryapp.ui.view.OrderScreen
 import com.example.bakeryapp.ui.view.RewardsScreen
 
-
+// making a random comment to test github actions workflow
 @Composable
 fun Navigation(
     navCon: NavHostController,
