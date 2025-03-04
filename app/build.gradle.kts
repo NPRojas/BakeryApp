@@ -77,6 +77,9 @@ dependencies {
     implementation(libs.gson)
     // Mockito for unit testing
     testImplementation (libs.mockito.core)
+    // Mockk for UI testing
+    testImplementation (libs.mockk)
+    androidTestImplementation (libs.mockk.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
