@@ -36,7 +36,7 @@ jobs:
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 31
+          api-level: 29
           script: ./gradlew connectedCheck
 
       - name: List connected devices
