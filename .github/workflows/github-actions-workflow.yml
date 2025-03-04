@@ -22,8 +22,10 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
-      - name: Set up google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES }}" | tee $GITHUB_WORKSPACE/app/google-services.json
+      - name: Load Google Service file
+        env:
+          FILE: ${{ secrets.GOOGLE_SERVICES }}
+        run: echo $FILE | base64 --decode > app/google-services.json
 
       - name: Run UI + "Unit" tests
         run: ./gradlew connectedAndroidTest
